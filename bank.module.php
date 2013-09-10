@@ -1,0 +1,45 @@
+<?php
+$digest = md5($_SERVER['PHP_SELF']);
+//echo $_SERVER['PHP_SELF'];
+//echo $digest;
+print_r($_SERVER);
+if($iptype == "Bank")
+{
+$GetBankInfo = mysql_query("SELECT * FROM Banks WHERE Name = '$name'");
+$GBI = mysql_fetch_array($GetBankInfo);
+$cost = $GBI['Cost'];
+if(!$action)
+{
+echo "<center>Welcome to $name bank!<br/>We have a wide selection of options for you.<br/><br/>";
+echo ClickLink("<a href='?", "&action", "&action=register'>Account Registration</a>");
+echo "<br/><br/>";
+echo ClickLink("<a href='?", "&action", "&action=manage'>Manage Existing Account</a>");
+echo "<br/><br/>";
+echo ClickLink("<a href='?", "&action", "&action=admin'>Administration</a>");
+}
+
+if($action == "register")
+{
+$register = $_REQUEST['register'];
+if(!$register)
+{
+echo "<center>Welcome to ".$name." bank!<br/>We have a wide selection of options for you.<br/><br/>Would you like to open an account with us?<br/><br/>";
+echo "The cost to register at the ".$name." bank is " . $cost . "<br/>";
+echo ClickLink("<a href='?", "&register", "&register=yes'>Yes</a>");
+echo " or ";
+echo ClickLink("<a href='?", "&action", "'>No</a>");
+} else {
+if($register == "complete")
+{
+
+} else {
+$linktouse = ClickLink("?", "&register", "&register=complete");
+echo "<center>Please wait one moment while we ready your account.<script>setInterval(function(){location.href='$linktouse';}, 5000);</script>";
+
+}
+}
+}
+}
+
+
+?>
